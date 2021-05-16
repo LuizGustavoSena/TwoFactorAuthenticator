@@ -1,0 +1,56 @@
+﻿@model TwofactorAuth.MVC.Models.LoginRequest
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<h4>LoginRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (ViewBag.Status == null || ViewBag.Status == false)
+        {
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Logar" class="btn btn-primary" />
+                </div>
+            </form>
+        }
+        else
+        {
+    <form asp-action="TwoFactor" asp-controller="Home">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <img src="@ViewBag.QrSrc" />
+        <label>Ou copie e cole esse codigo: @ViewBag.Key</label>
+        <div class="form-group">
+            <input type="text" name="passKey" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Logar" class="btn btn-primary" />
+        </div>
+        <label>@ViewBag.Message</label>
+    </form>
+        }
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
